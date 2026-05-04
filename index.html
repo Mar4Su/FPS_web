@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browser FPS Prototype</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+
+  <div id="hud">
+    <canvas id="radar" width="150" height="150"></canvas>
+    <div id="damageFlash"></div>
+    <div id="crosshair"></div>
+    <div id="topStats">Round 1 | Enemies Left: 0</div>
+    <div id="stats">HP: 100<br>Weapon: Rifle<br>Ammo: 30 / 90<br>Score: 0</div>
+
+    <div id="weaponView">
+      <div id="muzzleFlash"></div>
+      <div id="barrelTip"></div>
+      <div id="stock"></div>
+      <div id="gun"></div>
+      <div id="foregrip"></div>
+      <div id="knife"></div>
+      <div id="magazine"></div>
+      <div id="grip"></div>
+      <div id="leftHand"></div>
+      <div id="hand"></div>
+    </div>
+
+    <div id="message">
+      <h1>Browser FPS Prototype</h1>
+      <div>
+        Click Start, then click inside the game.<br>
+        WASD move, Mouse look, Left Click shoot, Space jump, CTRL crouch, R reload.<br>
+        1 Rifle, 2 Pistol, 3 Knife.
+      </div>
+      <button id="startButton">Start Game</button>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
