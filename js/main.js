@@ -84,7 +84,9 @@ function startGame() {
   resetGame();
   game.started = true;
   ui.message.style.display = "none";
-  canvas.requestPointerLock();
+  canvas.requestPointerLock({
+    unadjustedMovement: true
+  });
 }
 
 function setupInput() {
@@ -134,18 +136,42 @@ function setupInput() {
       return;
     }
 
-    const sensitivity = 0.0023;
+    const sensitivity = 0.002;
 
-    game.player.yaw -= e.movementX * sensitivity;
-    game.player.pitch -= e.movementY * sensitivity;
-    game.player.pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, game.player.pitch));
+    let movementX = e.movementX || 0;
+    let movementY = e.movementY || 0;
+
+    // ignore insane browser spikes
+    if (Math.abs(movementX) > 500 || Math.abs(movementY) > 500) {
+      return;
+    }
+
+    // if moving mostly sideways, block random vertical jump
+    if (Math.abs(movementX) > 25 && Math.abs(movementY) > Math.abs(movementX) * 0.7) {
+      movementY = 0;
+    }
+
+    // normal clamp
+    movementX = THREE.MathUtils.clamp(movementX, -80, 80);
+    movementY = THREE.MathUtils.clamp(movementY, -50, 50);
+
+    game.player.yaw -= movementX * sensitivity;
+    game.player.pitch -= movementY * sensitivity;
+
+    game.player.pitch = THREE.MathUtils.clamp(
+      game.player.pitch,
+      -Math.PI / 2 + 0.01,
+      Math.PI / 2 - 0.01
+    );
   });
 
   document.addEventListener("mousedown", (e) => {
     if (!game.started) return;
 
     if (document.pointerLockElement !== canvas) {
-      canvas.requestPointerLock();
+      canvas.requestPointerLock({
+        unadjustedMovement: true
+      });
       return;
     }
 

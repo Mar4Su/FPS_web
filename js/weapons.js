@@ -1,6 +1,6 @@
 import { ui, updateHud } from "./ui.js";
 import { damageEnemy } from "./enemies.js";
-import { playShootAnimation } from "./viewmodel.js";
+import { playShootAnimation, switchViewModel } from "./viewmodel.js";
 import * as THREE from "three";
 
 export function createWeapons() {
@@ -60,9 +60,13 @@ export function resetWeapons(game) {
 export function switchWeapon(game, id) {
   game.currentWeapon = id;
   game.weaponState.reloading = false;
+  game.weaponState.mouseDown = false;
 
   ui.weaponView.classList.toggle("akBlueGem", id === 1);
   ui.weaponView.classList.toggle("knifeMode", id === 3);
+
+  switchViewModel(id);
+
   updateHud(game);
 }
 
